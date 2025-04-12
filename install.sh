@@ -17,14 +17,11 @@ tar -xzf maldetect-current.tar.gz
 cd maldetect-*
 ./install.sh
 
-# Configurar Maldet
-sed -i "s/^email_addr=.*/email_addr=\"$CONTACT\"/" /usr/local/maldetect/conf.maldet
+# Descargar y aplicar nuestra configuración personalizada
+wget -O /usr/local/maldetect/conf.maldet https://raw.githubusercontent.com/aitorroma/conf.maldet/main/conf.maldet
 
-# Configuraciones adicionales de Maldet
-sed -i 's/^quarantine_hits=.*/quarantine_hits="1"/' /usr/local/maldetect/conf.maldet
-sed -i 's/^quarantine_clean=.*/quarantine_clean="1"/' /usr/local/maldetect/conf.maldet
-sed -i 's/^scan_clamscan=.*/scan_clamscan="1"/' /usr/local/maldetect/conf.maldet
-sed -i 's/^scan_tmpdir_paths=.*/scan_tmpdir_paths="/tmp /var/tmp /dev/shm /var/www/*/public_html"/' /usr/local/maldetect/conf.maldet
+# Configurar el email con el de HestiaCP
+sed -i "s/\$CONTACT/$CONTACT/" /usr/local/maldetect/conf.maldet
 
 # Crear cron para actualizaciones diarias
 echo "# Maldet daily update
@@ -33,5 +30,6 @@ echo "# Maldet daily update
 
 # Establecer permisos correctos
 chmod 644 /etc/cron.d/maldet
+chmod 644 /usr/local/maldetect/conf.maldet
 
 echo "Instalación de Maldet completada. Email de notificaciones configurado: $CONTACT"
