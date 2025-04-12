@@ -10,12 +10,24 @@ fi
 source /usr/local/hestia/conf/hestia.conf
 source /usr/local/hestia/data/users/$ROOT_USER/user.conf
 
-# Instalar Maldet
+# Instalar Maldet con parámetros específicos
 cd /usr/local/src
-wget http://www.rfxn.com/downloads/maldetect-current.tar.gz
-tar -xzf maldetect-current.tar.gz
-cd maldetect-*
+wget -4 http://www.rfxn.com/downloads/maldetect-current.tar.gz
+tar -zxvf maldetect-current.tar.gz
+rm -fv maldetect-current*
+cd maldetect-1.6.*
 ./install.sh
+cd
+
+# Copiar binarios a /sbin
+cp /usr/local/sbin/* /sbin
+
+# Inicialización y actualización
+maldet -d
+maldet -u
+
+# Deshabilitar el servicio de systemd
+systemctl disable maldet
 
 # Descargar y aplicar nuestra configuración personalizada
 wget -O /usr/local/maldetect/conf.maldet https://raw.githubusercontent.com/aitorroma/conf.maldet/main/conf.maldet
