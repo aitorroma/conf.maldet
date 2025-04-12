@@ -33,6 +33,10 @@ cd
 # Copiar binarios a /sbin
 cp /usr/local/sbin/* /sbin
 
+# Crear directorio de maldetect y configurar archivos
+mkdir -p /usr/local/maldetect/tmp
+chattr -a -i /usr/local/maldetect/* 2>/dev/null || true
+
 # Inicialización y actualización
 maldet -d
 maldet -u
@@ -40,9 +44,6 @@ maldet -u
 # Deshabilitar el servicio de systemd
 systemctl disable maldet
 
-# Crear directorio de maldetect y configurar archivos
-mkdir -p /usr/local/maldetect/tmp
-chattr -a -i /usr/local/maldetect/* 2>/dev/null || true
 
 # Descargar archivos de configuración desde nuestro repositorio
 wget -O /usr/local/maldetect/ignore_paths https://raw.githubusercontent.com/aitorroma/conf.maldet/main/ignore.paths
