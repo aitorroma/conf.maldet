@@ -41,7 +41,7 @@ maldet -u
 systemctl disable maldet
 
 # Crear directorio de maldetect y configurar archivos
-mkdir -p /usr/local/maldetect
+mkdir -p /usr/local/maldetect/tmp
 chattr -a -i /usr/local/maldetect/* 2>/dev/null || true
 
 # Descargar archivos de configuración desde nuestro repositorio
